@@ -77,7 +77,7 @@ layout: default
         padding: 6px 12px;
         background: rgba(255,255,255,0.2);
         color: white;
-        border-radius: 16px;
+        border-radius: 8px; /* 改为方形 */
         font-size: 14px;
         text-decoration: none;
         backdrop-filter: blur(4px);
@@ -159,7 +159,7 @@ layout: default
         padding: 6px 12px;
         background: var(--ios-gray-50);
         color: var(--ios-gray-800);
-        border-radius: 16px;
+        border-radius: 8px; /* 改为方形 */
         font-size: 14px;
         font-weight: 500;
         text-decoration: none;
@@ -282,41 +282,51 @@ layout: default
         }
     }
 
-    /* ========== 新增：解决社交图标框与圈不对等问题 ========== */
+    /* ========== 方形社交图标样式 ========== */
     /* 社交图标容器样式 */
     .social-icons .fa-stack {
-        width: 2em;
-        height: 2em;
-        line-height: 2em;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
         text-align: center;
+        margin: 0 5px;
+        border-radius: 6px; /* 极小圆角，接近方形 */
     }
     .social-icons .fa-stack-2x {
-        border-radius: 50%;
+        border-radius: 4px; /* 方形背景 */
         border: 1px solid var(--ios-gray-200);
         background: var(--ios-gray-50);
+        transition: all 0.2s ease;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
     }
     .social-icons .fa-stack-1x {
         color: var(--ios-gray-700);
+        transition: color 0.2s ease;
+        line-height: 44px;
     }
     .social-icons .fa-stack:hover .fa-stack-2x {
         background: var(--ios-blue);
         border-color: var(--ios-blue);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.12);
     }
     .social-icons .fa-stack:hover .fa-stack-1x {
         color: white;
     }
 
-    /* ========== 新增：解决公告栏与标签重叠问题 ========== */
+    /* ========== 公告栏样式优化 ========== */
     /* 公告栏样式 */
     #announcement-bar {
         background: var(--ios-gray-50);
-        padding: 12px;
+        padding: 15px 12px;
         text-align: center;
         border-bottom: 1px solid var(--ios-gray-200);
         position: relative;
-        z-index: 10;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        z-index: 100;
+        margin-bottom: 25px;
+        box-shadow: var(--ios-shadow);
     }
     #announcement-bar span {
         color: var(--ios-gray-800);
@@ -324,17 +334,22 @@ layout: default
         font-weight: 400;
         display: inline-block;
         max-width: 90%;
+        line-height: 1.5;
     }
     #announcement-bar button {
-        margin-left: 10px;
-        background: none;
-        border: none;
+        margin-left: 12px;
+        background: var(--ios-gray-100);
+        border: 1px solid var(--ios-gray-200);
         cursor: pointer;
         color: var(--ios-gray-700);
         font-size: 16px;
-        padding: 2px 6px;
-        border-radius: 4px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
         vertical-align: middle;
+        transition: all 0.2s ease;
+        padding: 0;
+        line-height: 1;
     }
     #announcement-bar button:hover {
         background: var(--ios-gray-200);
@@ -348,9 +363,9 @@ layout: default
     }
 </style>
 
-<!-- 新增：公告栏HTML结构 -->
+<!-- 优化的公告栏 -->
 <div id="announcement-bar">
-    <span>👋 欢迎交流各种问题！邮箱：<a href="mailto:zhugezhi7711@qq.com" style="color: var(--ios-blue); font-weight: 500;">zhugezhi7711@qq.com</a>（回复及时）</span>
+    <span>👋 欢迎交流各种问题！邮箱：<a href="mailto:zhugezhi7711@qq.com" style="color: var(--ios-blue); font-weight: 500; text-decoration: none;">zhugezhi7711@qq.com</a>（回复及时）</span>
     <button onclick="this.parentElement.style.display='none'">×</button>
 </div>
 
