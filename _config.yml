@@ -17,7 +17,7 @@ sidebar-avatar: /img/about-LZ-gentle.JPG      # use absolute URL, seeing it's us
 
 
 # SNS settings
-RSS: false
+RSS: true
 weibo_username:     Lorne7711
 zhihu_username:     卤汁香.
 github_username:    ZhuGezhi
@@ -59,7 +59,7 @@ kramdown:
 
 # Gitalk
 gitalk:
-  enable: true    #是否开启Gitalk评论
+  enable: flalse    #是否开启Gitalk评论
   clientID: Ov23liEeAkAaaPBsp5G0                           #生成的clientID
   clientSecret: f04fdd477c4baab8088a20848fc07ecf37630793    #生成的clientSecret
   repo: blog-comments    #仓库名称
