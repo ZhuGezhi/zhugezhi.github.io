@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">  <!-- 改为中文语言 -->
 
 {% include head.html %}
 
@@ -10,10 +10,64 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-CZXSW9B3FH');
+  
+  // 自定义事件：跟踪导航栏点击
+  document.addEventListener('DOMContentLoaded', function() {
+    // 导航栏点击事件
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        gtag('event', 'navigation_click', {
+          'link_text': this.textContent.trim(),
+          'link_url': this.href
+        });
+      });
+    });
+    
+    // 回到顶部按钮功能
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'back-to-top';
+    backToTopBtn.textContent = '↑';
+    backToTopBtn.style.cssText = `
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      z-index: 9999;
+    `;
+    document.body.appendChild(backToTopBtn);
+    
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      gtag('event', 'back_to_top_click');
+    });
+  });
 </script>
 
 <!-- hack iOS CSS :active style -->
-<body ontouchstart="">
+<body ontouchstart="" style="-webkit-tap-highlight-color: rgba(0,0,0,0);">
+
+    <!-- 公告栏（新增） -->
+    <div id="announcement-bar" style="background: #f0f8fb; padding: 10px; text-align: center; border-bottom: 1px solid #e8f4f8;">
+    <span style="color: #2d3748; font-size: 14px;">👋 欢迎交流各种问题！邮箱：<a href="mailto:zhugezhi7711@qq.com" style="color: #4299e1;">zhugezhi7711@qq.com</a>（回复及时）</span>
+    <button onclick="this.parentElement.style.display='none'" style="margin-left: 15px; background: none; border: none; cursor: pointer; color: #718096;">×</button>
+</div>
 
     {% include nav.html %}
 
@@ -21,11 +75,14 @@
 
     {% include footer.html %}
 
+    <!-- 自定义页脚信息（补充） -->
+    <div style="text-align: center; padding: 15px; font-size: 12px; color: #718096; border-top: 1px solid #e2e8f0;">
+        © 2025 Lorne的博客 | <a href="/about/" style="color: #4299e1;">关于我</a> | <a href="/sitemap.xml" style="color: #4299e1;">网站地图</a>
+    </div>
 
 <!-- Image to hack wechat -->
 <img src="/img/apple-touch-icon.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
-
 </html>
