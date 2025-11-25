@@ -44,12 +44,13 @@
             {% endif %}
         </div>
         
-        <!-- 邮箱 -->
-        {% if site.email %}
-        <p class="email">
-            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
-        </p>
-        {% endif %}
+     <!-- 邮箱 -->
+{% if site.email %}
+<p class="email">
+    <span>✉️ </span>  <!-- 添加邮箱emoji -->
+    <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+</p>
+{% endif %}
     </section>
     
     <!-- 标签区域 -->
