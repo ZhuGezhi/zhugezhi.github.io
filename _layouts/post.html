@@ -8,18 +8,6 @@ layout: default
 
 <!-- Post Header -->
 <style type="text/css">
-    /* iOS风格配色系统 */
-    :root {
-        --ios-gray-50: #f9fafb;
-        --ios-gray-100: #f3f4f6;
-        --ios-gray-200: #e5e7eb;
-        --ios-gray-300: #d1d5db;
-        --ios-gray-700: #374151;
-        --ios-gray-800: #1f2937;
-        --ios-blue: #007aff;
-        --ios-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-    }
-
     /* 文章头部样式 */
     header.intro-header{
         position: relative;
@@ -27,6 +15,8 @@ layout: default
         background-size: cover;
         background-position: center;
         margin-bottom: 30px;
+        border-radius: 16px;
+        overflow: hidden;
     }
 
     {% if page.header-mask %}
@@ -42,20 +32,19 @@ layout: default
     .post-heading {
         position: relative;
         z-index: 1;
-        padding: 60px 0;
+        padding: 80px 20px;
         text-align: center;
         color: white;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     .post-heading h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
+        font-size: 2.8rem;
+        font-weight: 700;
         letter-spacing: -0.02em;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        margin-bottom: 1.5rem;
     }
     .post-heading .subheading {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         color: rgba(255,255,255,0.9);
         font-weight: 400;
         margin-bottom: 1rem;
@@ -70,39 +59,59 @@ layout: default
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 1.5rem;
+        gap: 10px;
+        margin-bottom: 2rem;
     }
     .post-heading .tags .tag {
-        padding: 6px 12px;
+        padding: 8px 16px;
         background: rgba(255,255,255,0.2);
         color: white;
-        border-radius: 8px; /* 改为方形 */
+        border-radius: 12px;
         font-size: 14px;
         text-decoration: none;
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(8px);
         border: 1px solid rgba(255,255,255,0.3);
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
     }
     .post-heading .tags .tag:hover {
         background: rgba(255,255,255,0.3);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     /* 文章内容区域 */
     .post-container {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         color: var(--ios-gray-800);
         line-height: 1.8;
         font-size: 16px;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: var(--ios-shadow);
+        margin-bottom: 20px;
+    }
+    .post-container h1, .post-container h2, .post-container h3, 
+    .post-container h4, .post-container h5, .post-container h6 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--ios-gray-800);
+    }
+    .post-container p {
+        margin-bottom: 1.2rem;
+    }
+    .post-container img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 1.5rem 0;
     }
     .post-container a {
         color: var(--ios-blue);
         text-decoration: none;
+        font-weight: 500;
     }
     .post-container a:hover {
         text-decoration: underline;
-        text-underline-offset: 2px;
+        text-underline-offset: 4px;
     }
 
     /* 分页导航样式 */
@@ -118,20 +127,21 @@ layout: default
     }
     .pager li a {
         display: block;
-        padding: 12px 20px;
-        background: var(--ios-gray-50);
+        padding: 12px 24px;
+        background: white;
         border: 1px solid var(--ios-gray-200);
-        border-radius: 8px;
+        border-radius: 12px;
         color: var(--ios-gray-800);
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        box-shadow: var(--ios-shadow);
     }
     .pager li a:hover {
         background: var(--ios-blue);
         color: white;
         border-color: var(--ios-blue);
-        transform: translateY(-2px);
-        box-shadow: var(--ios-shadow);
+        transform: translateY(-3px);
+        box-shadow: var(--ios-shadow-hover);
     }
     .pager li.previous a {
         margin-right: auto;
@@ -142,53 +152,59 @@ layout: default
 
     /* 侧边栏样式 */
     .sidebar-container {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
     section {
-        margin-bottom: 20px;
-        padding: 16px;
         background: white;
-        border-radius: 12px;
+        border-radius: 16px;
         box-shadow: var(--ios-shadow);
+        padding: 20px;
+        transition: transform 0.2s ease;
+    }
+    section:hover {
+        transform: translateY(-2px);
     }
 
     /* 标签云样式 */
     .tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
+        gap: 10px;
+        margin-top: 15px;
     }
     .tags a {
-        padding: 6px 12px;
+        padding: 8px 16px;
         background: var(--ios-gray-50);
         color: var(--ios-gray-800);
-        border-radius: 8px; /* 改为方形 */
+        border-radius: 12px;
         font-size: 14px;
         font-weight: 500;
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
         border: 1px solid var(--ios-gray-200);
     }
     .tags a:hover {
         background: var(--ios-blue);
         color: white;
         border-color: var(--ios-blue);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
         box-shadow: var(--ios-shadow);
     }
 
     /* 目录样式 */
     .catalog-container {
         background: white;
-        border-radius: 12px;
+        border-radius: 16px;
         box-shadow: var(--ios-shadow);
-        padding: 16px;
+        padding: 20px;
     }
     .side-catalog h5 {
-        margin: 0 0 12px 0;
+        margin: 0 0 15px 0;
         color: var(--ios-gray-800);
         font-weight: 600;
+        font-size: 18px;
     }
     .side-catalog h5 a {
         color: inherit;
@@ -203,8 +219,8 @@ layout: default
         font-size: 14px;
     }
     .catalog-body li {
-        margin-bottom: 8px;
-        padding-left: 12px;
+        margin-bottom: 10px;
+        padding-left: 15px;
         position: relative;
     }
     .catalog-body li:before {
@@ -212,62 +228,69 @@ layout: default
         position: absolute;
         left: 0;
         top: 10px;
-        width: 4px;
-        height: 4px;
+        width: 6px;
+        height: 6px;
         background: var(--ios-blue);
         border-radius: 50%;
     }
     .catalog-body a {
         color: var(--ios-gray-700);
         text-decoration: none;
+        transition: color 0.2s ease;
     }
     .catalog-body a:hover {
         color: var(--ios-blue);
+        padding-left: 5px;
     }
 
     /* 友情链接样式 */
     .list-inline {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
         padding: 0;
-        margin: 12px 0 0 0;
+        margin: 15px 0 0 0;
         list-style: none;
     }
     .list-inline li a {
-        padding: 4px 8px;
+        padding: 8px 16px;
         font-size: 14px;
         color: var(--ios-gray-700);
         background: var(--ios-gray-50);
-        border-radius: 6px;
+        border-radius: 12px;
         border: 1px solid var(--ios-gray-200);
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
     }
     .list-inline li a:hover {
         background: var(--ios-gray-100);
         color: var(--ios-blue);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+        box-shadow: var(--ios-shadow);
     }
 
     /* 评论区样式 */
     .giscus-container {
         margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid var(--ios-gray-200);
+        padding: 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--ios-shadow);
     }
     .comment {
         margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid var(--ios-gray-200);
+        padding: 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--ios-shadow);
     }
 
     /* 标题样式统一 */
     h5 {
-        margin: 0 0 8px 0;
+        margin: 0 0 15px 0;
         color: var(--ios-gray-800);
         font-weight: 600;
-        font-size: 16px;
+        font-size: 18px;
     }
     h5 a {
         color: inherit;
@@ -288,61 +311,29 @@ layout: default
         }
     }
 
-    /* ========== 公告栏样式优化 ========== */
-    /* 公告栏样式 */
-    #announcement-bar {
-        background: var(--ios-gray-50);
-        padding: 15px 12px;
-        text-align: center;
-        border-bottom: 1px solid var(--ios-gray-200);
-        position: relative;
-        z-index: 100;
-        margin-bottom: 25px;
-        box-shadow: var(--ios-shadow);
-    }
-    #announcement-bar span {
-        color: var(--ios-gray-800);
-        font-size: 14px;
-        font-weight: 400;
-        display: inline-block;
-        max-width: 90%;
-        line-height: 1.5;
-    }
-    #announcement-bar button {
-        margin-left: 12px;
-        background: var(--ios-gray-100);
-        border: 1px solid var(--ios-gray-200);
-        cursor: pointer;
-        color: var(--ios-gray-700);
-        font-size: 16px;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        vertical-align: middle;
-        transition: all 0.2s ease;
-        padding: 0;
-        line-height: 1;
-    }
-    #announcement-bar button:hover {
-        background: var(--ios-gray-200);
-        transform: scale(1.1);
-    }
-
-    /* 确保标签区域不被遮挡 */
-    .featured-tags-section {
-        margin-top: 15px;
-        position: relative;
-        z-index: 1;
+    /* 响应式布局优化 */
+    @media (max-width: 768px) {
+        .post-heading h1 {
+            font-size: 2rem;
+        }
+        .post-container {
+            padding: 20px;
+        }
+        .pager {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .pager li {
+            width: 100%;
+        }
+        .pager li a {
+            width: 100%;
+            text-align: center;
+        }
     }
 </style>
 
-<!-- 优化的公告栏 -->
-<div id="announcement-bar">
-    <span>👋 欢迎交流各种问题！邮箱：<a href="mailto:zhugezhi7711@qq.com" style="color: var(--ios-blue); font-weight: 500; text-decoration: none;">zhugezhi7711@qq.com</a>（回复及时）</span>
-    <button onclick="this.parentElement.style.display='none'">×</button>
-</div>
-
-<header class="intro-header" >
+<header class="intro-header">
     <div class="header-mask"></div>
     <div class="container">
         <div class="row">
@@ -470,7 +461,7 @@ layout: default
                 </section>
                 {% endif %}
 
-                <!-- Friends Blog - 修改：移除social-icons类，避免与模板中的社交图标冲突 -->
+                <!-- Friends Blog -->
                 {% if site.friends %}
                 <section>
                     <h5>FRIENDS</h5>
