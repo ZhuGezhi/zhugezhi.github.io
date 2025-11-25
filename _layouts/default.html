@@ -10,25 +10,39 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
-        /* 全局变量定义 - 确保风格统一 */
+        /* 全局变量定义 - 高级感配色方案 */
         :root {
-            --primary-color: #374151; /* 主色调：深灰色，与主题协调 */
-            --secondary-color: #6b7280; /* 次要颜色：中灰色 */
-            --accent-color: #007aff; /* 强调色：iOS蓝色 */
-            --light-gray: #f3f4f6;
-            --border-radius: 8px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --primary-color: #2d3748; /* 深灰蓝，专业感 */
+            --secondary-color: #718096; /* 中灰蓝 */
+            --accent-color: #4299e1; /* 亮蓝，强调色 */
+            --light-gray: #f7fafc;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-        /* 公告栏样式优化 */
-        .announcement {
-            background-color: var(--light-gray);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--primary-color);
-            border-bottom: 1px solid #e5e7eb;
+            background-color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        /* 公告栏样式 */
+        .announcement {
+            background-color: var(--accent-color);
+            color: white;
             padding: 12px 0;
             text-align: center;
             position: relative;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .announcement-content {
@@ -38,15 +52,11 @@
         }
         
         .announcement a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-        
-        .announcement a:hover {
+            color: white;
             text-decoration: underline;
+            font-weight: 500;
         }
         
-        /* 公告栏关闭按钮 */
         .close-announcement {
             position: absolute;
             right: 15px;
@@ -54,7 +64,7 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: var(--secondary-color);
+            color: white;
             cursor: pointer;
             font-size: 16px;
             width: 30px;
@@ -63,19 +73,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
         
         .close-announcement:hover {
-            background-color: rgba(0,0,0,0.05);
-            color: var(--primary-color);
+            background-color: rgba(255,255,255,0.2);
         }
 
-        /* 导航栏样式优化 */
+        /* 导航栏样式 */
         .site-header {
             background-color: white;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border-color);
             padding: 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-content {
@@ -85,7 +98,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 15px;
-            height: 60px;
+            height: 64px;
         }
         
         .site-title {
@@ -96,23 +109,44 @@
         .site-title a {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        
+        .site-title a:hover {
+            color: var(--accent-color);
         }
         
         .main-nav {
             display: flex;
-            gap: 20px;
+            gap: 24px;
         }
         
         .main-nav a {
             color: var(--secondary-color);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease;
+            transition: var(--transition);
+            position: relative;
         }
         
         .main-nav a:hover {
             color: var(--accent-color);
+        }
+        
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .main-nav a:hover::after {
+            width: 100%;
         }
         
         /* 主内容区布局 */
@@ -131,6 +165,25 @@
         .sidebar {
             width: 300px;
             flex-shrink: 0;
+        }
+        
+        /* 页脚样式 */
+        .site-footer {
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+            padding: 40px 0;
+        }
+        
+        .site-footer .container {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .site-footer p {
+            color: var(--secondary-color);
+            margin: 0;
         }
         
         /* 响应式调整 */
@@ -195,29 +248,25 @@
     <!-- 页脚 -->
     <footer class="site-footer">
         <div class="container">
-            <p>© {{ site.time | date: "%Y" }} {{ site.title }}. All rights reserved.</p>
+            <p>© {{ site.time | date: "%Y" }} L's Thought Hub. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- 公告栏关闭功能脚本 -->
     <script>
-        // 检查是否应该显示公告栏（使用localStorage记住用户选择）
         document.addEventListener('DOMContentLoaded', function() {
             const announcement = document.getElementById('announcement');
             const closeBtn = document.getElementById('closeAnnouncement');
             
-            // 如果用户之前关闭过公告栏，则不显示
             if (localStorage.getItem('announcementClosed') === 'true') {
                 announcement.style.display = 'none';
             }
             
-            // 关闭按钮功能
             closeBtn.addEventListener('click', function() {
                 announcement.style.opacity = '0';
                 setTimeout(() => {
                     announcement.style.display = 'none';
                 }, 300);
-                // 记录用户选择
                 localStorage.setItem('announcementClosed', 'true');
             });
         });
