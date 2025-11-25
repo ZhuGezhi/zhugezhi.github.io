@@ -1,148 +1,224 @@
+---
+---
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "zh-CN" }}">
+<html lang="{{ site.lang | default: "en-US" }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ page.title | default: site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        /* 全局变量定义 - 确保风格统一 */
+        :root {
+            --primary-color: #374151; /* 主色调：深灰色，与主题协调 */
+            --secondary-color: #6b7280; /* 次要颜色：中灰色 */
+            --accent-color: #007aff; /* 强调色：iOS蓝色 */
+            --light-gray: #f3f4f6;
+            --border-radius: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
 
-{% include head.html %}
+        /* 公告栏样式优化 */
+        .announcement {
+            background-color: var(--light-gray);
+            color: var(--primary-color);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 0;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .announcement-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .announcement a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .announcement a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 公告栏关闭按钮 */
+        .close-announcement {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            cursor: pointer;
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .close-announcement:hover {
+            background-color: rgba(0,0,0,0.05);
+            color: var(--primary-color);
+        }
 
-<!-- 全局样式定义 -->
-<style type="text/css">
-    :root {
-        --ios-gray-50: #f9fafb;
-        --ios-gray-100: #f3f4f6;
-        --ios-gray-200: #e5e7eb;
-        --ios-gray-300: #d1d5db;
-        --ios-gray-500: #6b7280;
-        --ios-gray-600: #4b5563;
-        --ios-gray-700: #374151;
-        --ios-gray-800: #1f2937;
-        --ios-blue: #007aff;
-        --ios-yellow: #ffcc00;
-        --ios-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-        --ios-shadow-hover: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        background-color: var(--ios-gray-50);
-        color: var(--ios-gray-800);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        padding-top: 60px; /* 为固定导航栏预留空间 */
-    }
-    
-    /* 公告栏样式 */
-    .announcement-bar {
-        background-color: var(--ios-yellow);
-        color: var(--ios-gray-800);
-        padding: 12px 0;
-        text-align: center;
-        font-weight: 500;
-        font-size: 15px;
-        box-shadow: var(--ios-shadow);
-        position: relative;
-        z-index: 900; /* 确保在导航栏下方 */
-    }
-    
-    .announcement-bar a {
-        color: var(--ios-blue);
-        text-decoration: underline;
-        font-weight: 600;
-    }
-    
-    .container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 15px;
-    }
-    
-    a {
-        color: var(--ios-blue);
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-    
-    a:hover {
-        color: #0066cc;
-    }
-    
-    /* 导航栏样式 - 确保不与公告栏重叠 */
-    nav {
-        background-color: white;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        box-shadow: var(--ios-shadow);
-        z-index: 1000; /* 确保在公告栏上方 */
-    }
-    
-    /* 回到顶部按钮 */
-    #back-to-top {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: var(--ios-blue);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        font-size: 20px;
-        cursor: pointer;
-        box-shadow: var(--ios-shadow);
-        display: none;
-        z-index: 1000;
-    }
-    
-    #back-to-top:hover {
-        background: #0066cc;
-    }
-</style>
-
-<body ontouchstart="">
-    <!-- 公告栏 - 位于导航栏下方，不重叠 -->
-    <div class="announcement-bar">
-        欢迎联系邮箱 <a href="mailto:zhugezhi7711@qq.com">zhugezhi7711@qq.com</a> 交流各种问题！
+        /* 导航栏样式优化 */
+        .site-header {
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            height: 60px;
+        }
+        
+        .site-title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .site-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .main-nav {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .main-nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .main-nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* 主内容区布局 */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .site-title {
+                font-size: 1.2rem;
+            }
+            
+            .main-nav {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 公告栏 -->
+    <div class="announcement" id="announcement">
+        <div class="announcement-content">
+            欢迎联系邮箱 <a href="mailto:zhugezhi7711@qq.com">zhugezhi7711@qq.com</a> 交流各种问题！
+            <button class="close-announcement" id="closeAnnouncement" aria-label="Close announcement">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
     </div>
-    
-    {% include nav.html %}
 
-    <main class="main-content" role="main">
-        {{ content }}
-    </main>
+    <!-- 导航栏 -->
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="site-title">
+                <a href="{{ site.baseurl }}/">L's Thought Hub</a>
+            </h1>
+            <nav class="main-nav">
+                <a href="{{ site.baseurl }}/">HOME</a>
+                <a href="{{ site.baseurl }}/about.html">ABOUT</a>
+                <a href="{{ site.baseurl }}/tags.html">TAGS</a>
+            </nav>
+        </div>
+    </header>
 
-    {% include footer.html %}
+    <!-- 主内容区 -->
+    <div class="container">
+        <main class="main-content">
+            {{ content }}
+        </main>
+        
+        <!-- 侧边栏 - 仅在非keynote布局显示 -->
+        {% unless page.layout == 'keynote' %}
+        <aside class="sidebar">
+            {% include sidebar.html %}
+        </aside>
+        {% endunless %}
+    </div>
 
-    <!-- 回到顶部功能 -->
-    <button id="back-to-top">↑</button>
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>© {{ site.time | date: "%Y" }} {{ site.title }}. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 公告栏关闭功能脚本 -->
     <script>
-        const backToTopButton = document.getElementById('back-to-top');
-        
-        window.addEventListener('scroll', () => {
-            backToTopButton.style.display = window.scrollY > 300 ? 'block' : 'none';
-        });
-        
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
+        // 检查是否应该显示公告栏（使用localStorage记住用户选择）
+        document.addEventListener('DOMContentLoaded', function() {
+            const announcement = document.getElementById('announcement');
+            const closeBtn = document.getElementById('closeAnnouncement');
+            
+            // 如果用户之前关闭过公告栏，则不显示
+            if (localStorage.getItem('announcementClosed') === 'true') {
+                announcement.style.display = 'none';
+            }
+            
+            // 关闭按钮功能
+            closeBtn.addEventListener('click', function() {
+                announcement.style.opacity = '0';
+                setTimeout(() => {
+                    announcement.style.display = 'none';
+                }, 300);
+                // 记录用户选择
+                localStorage.setItem('announcementClosed', 'true');
             });
         });
     </script>
