@@ -6,10 +6,10 @@ header-img: "img/post-bg-rwd.jpg"
 ---
 
 <!-- Language Selector -->
-<!-- <select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
+<select class="sel-lang" onchange="onLanChange(this.options[this.options.selectedIndex].value)">
     <option value="0" selected> 中文 Chinese </option>
     <option value="1"> 英文 English </option>
-</select> -->
+</select>
 
 <!-- Chinese Version -->
 <div class="zh post-container">
@@ -22,7 +22,7 @@ header-img: "img/post-bg-rwd.jpg"
 
     <p>爱好：胡思乱想、摄影、羽毛球。</p>
 
-    <p>突然想搭建一个属于自己的博客，所以借助GitHub上@qiuboying的快速教程，成功搭建了L's Thought Hub。原创博主的GitHub主页是<a href="https://github.com/qiubaiying">👉GitHub·BY</a> 与 简书主页<a href="https://http://www.jianshu.com/u/e71990ada2fd">👉BY</a>。</p>
+    <p>突然想搭建一个属于自己的博客，所以借助GitHub上@qiuboying的快速教程，成功搭建了L's Thought Hub。原创博主的GitHub主页是<a href="https://github.com/qiubaiying">👉GitHub·BY</a> 与 简书主页<a href="http://www.jianshu.com/u/e71990ada2fd">👉BY</a>。</p>
 
     <p></p>
     
@@ -97,6 +97,26 @@ header-img: "img/post-bg-rwd.jpg"
     _render();
 </script>
 
+<style type="text/css">
+    /* 语言选择器样式 */
+    .sel-lang {
+        margin-bottom: 20px;
+        padding: 8px 12px;
+        border-radius: var(--border-radius, 8px);
+        border: 1px solid var(--border-color);
+        background: white;
+        color: var(--primary-color);
+    }
+    
+    /* 中英文内容区块 */
+    .zh, .en {
+        margin-bottom: 20px;
+    }
+    
+    .en {
+        display: none;
+    }
+</style>
 
 <!-- Gitalk 评论 start  -->
 {% if site.gitalk.enable %}
@@ -144,4 +164,3 @@ header-img: "img/post-bg-rwd.jpg"
 </script>
 <!-- disqus 公共JS代码 end -->
 {% endif %}
-
