@@ -5,48 +5,171 @@ layout: default
 <style type="text/css">
     .page-container {
         background: white;
-        border-radius: var(--border-radius);
-        padding: 30px;
+        border-radius: var(--border-radius, 8px);
+        padding: 40px;
         box-shadow: var(--shadow);
         color: var(--primary-color);
         line-height: 1.8;
     }
     
-    .page-container h1, 
-    .page-container h2, 
-    .page-container h3 {
-        margin-top: 1.5rem;
+    .page-header {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-container h1 {
+        margin-top: 0;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        color: var(--primary-color);
+    }
+    
+    .page-container h2 {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        border-left: 4px solid var(--accent-color);
+        padding-left: 1rem;
+    }
+    
+    .page-container h3 {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
         color: var(--primary-color);
     }
     
     .page-container p {
         margin-bottom: 1.2rem;
+        color: var(--secondary-color);
     }
     
     .page-container img {
         max-width: 100%;
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius, 8px);
+        margin: 1.5rem auto;
+        display: block;
+        box-shadow: var(--shadow);
+    }
+    
+    /* 列表样式 */
+    .page-container ul, 
+    .page-container ol {
+        margin-bottom: 1.2rem;
+        padding-left: 1.5rem;
+        color: var(--secondary-color);
+    }
+    
+    .page-container li {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* 链接样式 */
+    .page-container a {
+        color: var(--accent-color);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: var(--transition);
+    }
+    
+    .page-container a:hover {
+        color: #2b6cb0;
+        border-bottom: 1px solid #2b6cb0;
+    }
+    
+    /* 代码块样式 */
+    .page-container pre {
+        background-color: var(--light-gray);
+        padding: 1rem;
+        border-radius: var(--border-radius, 8px);
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: 'Consolas', 'Monaco', monospace;
+    }
+    
+    .page-container code {
+        background-color: var(--light-gray);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: 'Consolas', 'Monaco', monospace;
+    }
+    
+    /* 引用样式 */
+    .page-container blockquote {
+        border-left: 4px solid var(--border-color);
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        color: var(--secondary-color);
+        font-style: italic;
+    }
+    
+    /* 表格样式 */
+    .page-container table {
+        width: 100%;
+        border-collapse: collapse;
         margin: 1.5rem 0;
     }
     
-    /* 确保侧边栏在右侧 */
-    @media (min-width: 769px) {
-        .container {
-            flex-direction: row;
+    .page-container th, 
+    .page-container td {
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        text-align: left;
+    }
+    
+    .page-container th {
+        background-color: var(--light-gray);
+        font-weight: 600;
+    }
+    
+    /* 按钮样式 */
+    .page-container .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        border-radius: var(--border-radius, 8px);
+        text-decoration: none;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    .page-container .btn:hover {
+        background-color: #2b6cb0;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    @media (max-width: 768px) {
+        .page-container {
+            padding: 20px;
         }
         
-        .main-content {
-            order: 1; /* 主内容在左侧 */
+        .page-container h1 {
+            font-size: 1.8rem;
         }
         
-        .sidebar {
-            order: 2; /* 侧边栏在右侧 */
+        .page-container h2 {
+            font-size: 1.5rem;
+        }
+        
+        .page-container h3 {
+            font-size: 1.2rem;
         }
     }
 </style>
 
 <div class="page-container">
-    <h1>{{ page.title }}</h1>
+    <div class="page-header">
+        <h1>{{ page.title }}</h1>
+        {% if page.subtitle %}
+        <p style="font-size: 1.2rem; color: var(--secondary-color);">{{ page.subtitle }}</p>
+        {% endif %}
+    </div>
+    
     {{ content }}
 </div>
