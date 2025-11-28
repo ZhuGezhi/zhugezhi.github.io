@@ -1,88 +1,316 @@
-# Site settings
-title: L's Thought Hub
-SEOTitle: Lorne的博客 | BY Lorne
-header-img: img/post-bg-desk.jpg
-email: zgl27375885@gmail.com
-description: "Unity of knowledge and action."
-keyword: "BY, BY Lorne, 汁的博客, zhugezhi, 诸葛汁, Photo, Lit, Math"
-url: "http://zhugezhi.github.io"          # your host, for absolute URL
-baseurl: "/"      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/ZhuGezhi/zhugezhi.github.io.git" # you code repository
-
-# Sidebar settings
-sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Knowledge and action unite; action validates knowledge."
-sidebar-avatar: img/about-LZ-gentle.JPG      # use absolute URL, seeing it's used in both `/` and `/about/`
-
-# SNS settings
-RSS: false
-weibo_username:     Lorne7711
-zhihu_username:     卤汁香.
-github_username:    ZhuGezhi
-twitter_username:   zgl27375885
-
-# Build settings
-# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
-permalink: pretty
-paginate: 10
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
-
-# Gems
-# from PR#40, to support local preview for Jekyll 3.0
-plugins: [jekyll-paginate]  # 使用plugins替代gems，符合最新规范
-
-# Markdown settings
-# replace redcarpet to kramdown,
-# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
-# document: http://jekyllrb.com/docs/configuration/#kramdown
-markdown: kramdown
-highlighter: rouge
-kramdown:
-  input: GFM                            # use Github Flavored Markdown !important
-
-# 评论系统
-# Disqus（https://disqus.com/）
-# disqus_username: qiubaiying
-
-# Gitalk
-gitalk:
-  enable: false    # 修复拼写错误：flalse -> false
-  clientID: Ov23liEeAkAaaPBsp5G0                           #生成的clientID
-  clientSecret: f04fdd477c4baab8088a20848fc07ecf37630793    #生成的clientSecret
-  repo: blog-comments    #仓库名称
-  owner: ZhuGezhi    #github用户名
-  admin: ZhuGezhi
-  distractionFreeMode: true #是否启用类似FB的阴影遮罩
-
-# 统计
-
-# Analytics settings
-# Baidu Analytics
-#ba_track_id: b50bf2b12b5338a1845e33832976fd68
-
-# Google Analytics
-ga_track_id: 'G-CZXSW9B3FH'            # Format: UA-xxxxxx-xx
-ga_domain: zhugezhi.icu               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
-
-# Featured Tags
-featured-tags: true                     # 是否使用首页标签
-featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
-
-# Progressive Web Apps
-chrome-tab-theme-color: "#000000"
-service-worker: true
-
-# Friends
-friends: [
-    {
-        title: "抖音",
-        href: "https://www.douyin.com/"
-    },{
-        title: "小红书",
-        href: "https://www.xiaohongshu.com/"
-    },{
-        title: "GitHub",
-        href: "https://github.com/"
+<style type="text/css">
+    /* 侧边栏作者信息 */
+    .author-card {
+        text-align: center;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
     }
-]
+    
+    .author-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px;
+        border: 3px solid white;
+        box-shadow: var(--shadow);
+    }
+    
+    .author-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--primary-color);
+    }
+    
+    .author-bio {
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--light-gray);
+        color: var(--secondary-color);
+        transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+        background-color: var(--accent-color);
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    /* 侧边栏模块通用样式 */
+    .sidebar-module {
+        margin-bottom: 30px;
+    }
+    
+    .sidebar-module-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--accent-color);
+        color: var(--primary-color);
+    }
+    
+    /* 热门文章 */
+    .post-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .post-item {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed var(--border-color);
+    }
+    
+    .post-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .post-item a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: var(--transition);
+        display: block;
+    }
+    
+    .post-item a:hover {
+        color: var(--accent-color);
+        transform: translateX(5px);
+    }
+    
+    .post-date {
+        font-size: 0.8rem;
+        color: var(--secondary-color);
+        margin-top: 5px;
+    }
+    
+    /* 标签云 */
+    .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .tag-cloud a {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: var(--light-gray);
+        color: var(--secondary-color);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    
+    .tag-cloud a:hover {
+        background-color: var(--accent-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    /* 友情链接 */
+    .friends-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .friends-list li {
+        margin-bottom: 10px;
+    }
+    
+    .friends-list a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+    }
+    
+    .friends-list a:hover {
+        color: var(--accent-color);
+        transform: translateX(5px);
+    }
+    
+    .friends-list i {
+        font-size: 0.8rem;
+    }
+    
+    /* 订阅模块 */
+    .subscribe-box {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 20px;
+        border-radius: var(--border-radius, 8px);
+        text-align: center;
+    }
+    
+    .subscribe-box h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .subscribe-box p {
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .subscribe-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: white;
+        color: var(--accent-color);
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+    }
+    
+    .subscribe-btn:hover {
+        background-color: #f0f8ff;
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- 作者信息卡片 -->
+<div class="author-card">
+    <img src="{{ site.baseurl }}/{{ site.sidebar-avatar }}" alt="作者头像" class="author-avatar">
+    <h3 class="author-name">{{ site.title | split: ' ' | first }}</h3>
+    <p class="author-bio">{{ site.sidebar-about-description }}</p>
+    <div class="social-links">
+        <a href="mailto:{{ site.email }}" aria-label="邮箱">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+        </a>
+        {% if site.github_username %}
+        <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fa fa-github" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        {% if site.zhihu_username %}
+        <a href="https://zhihu.com/people/{{ site.zhihu_username }}" target="_blank" rel="noopener" aria-label="知乎">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        {% if site.weibo_username %}
+        <a href="https://weibo.com/{{ site.weibo_username }}" target="_blank" rel="noopener" aria-label="微博">
+            <i class="fa fa-weibo" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        {% if site.twitter_username %}
+        <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank" rel="noopener" aria-label="Twitter">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 热门文章 -->
+<div class="sidebar-module">
+    <h3 class="sidebar-module-title">
+        <i class="fa fa-fire" aria-hidden="true"></i> 最新文章
+    </h3>
+    <ul class="post-list">
+        {% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+        {% for post in sorted_posts limit:5 %}
+        <li class="post-item">
+            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            <span class="post-date">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                {{ post.date | date: "%Y-%m-%d" }}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- 标签云 -->
+{% if site.tags.size > 0 %}
+<div class="sidebar-module">
+    <h3 class="sidebar-module-title">
+        <i class="fa fa-tags" aria-hidden="true"></i> 标签云
+    </h3>
+    <div class="tag-cloud">
+        {% assign tags = site.tags | sort %}
+        {% for tag in tags %}
+        <a href="{{ site.baseurl }}/tags/#{{ tag[0] }}">
+            {{ tag[0] }} <span>({{ tag[1].size }})</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- 友情链接 -->
+{% if site.friends.size > 0 %}
+<div class="sidebar-module">
+    <h3 class="sidebar-module-title">
+        <i class="fa fa-link" aria-hidden="true"></i> 友情链接
+    </h3>
+    <ul class="friends-list">
+        {% for friend in site.friends %}
+        <li>
+            <a href="{{ friend.href }}" target="_blank" rel="noopener">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+                {{ friend.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<!-- 订阅模块 -->
+<div class="sidebar-module subscribe-box">
+    <h3>订阅更新</h3>
+    <p>{{ site.description }}</p>
+    <a href="mailto:{{ site.email }}" class="subscribe-btn">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i> 联系我
+    </a>
+</div>
+
+<!-- 站点信息 -->
+<div class="sidebar-module">
+    <h3 class="sidebar-module-title">
+        <i class="fa fa-info-circle" aria-hidden="true"></i> 站点信息
+    </h3>
+    <ul style="list-style: none; padding: 0; color: var(--secondary-color); font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;">
+            <i class="fa fa-file-text-o" aria-hidden="true" style="width: 16px;"></i>
+            文章总数: {{ site.posts | size }}
+        </li>
+        <li style="margin-bottom: 8px;">
+            <i class="fa fa-calendar-o" aria-hidden="true" style="width: 16px;"></i>
+            创建时间: {{ site.time | date: "%Y" }}
+        </li>
+        <li style="margin-bottom: 8px;">
+            <i class="fa fa-tags" aria-hidden="true" style="width: 16px;"></i>
+            标签总数: {{ site.tags.size }}
+        </li>
+        <li>
+            <i class="fa fa-code-fork" aria-hidden="true" style="width: 16px;"></i>
+            技术栈: Jekyll + GitHub Pages
+        </li>
+    </ul>
+</div>
