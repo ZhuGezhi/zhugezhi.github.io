@@ -6,22 +6,29 @@ layout: default
     /* Keynote容器样式 */
     .keynote-container {
         width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
     
     /* 幻灯片样式 */
     .slide {
         min-height: 70vh;
         background: white;
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius, 8px);
         box-shadow: var(--shadow);
         padding: 40px;
         margin-bottom: 30px;
-        display: flex;
+        display: none; /* 默认隐藏所有幻灯片 */
         flex-direction: column;
         justify-content: center;
         position: relative;
         overflow: hidden;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-color);
+    }
+    
+    /* 默认显示第一个幻灯片 */
+    .slide:first-child {
+        display: flex;
     }
     
     .slide.fullscreen {
@@ -52,6 +59,35 @@ layout: default
         margin: 0 auto;
     }
     
+    /* 幻灯片标题样式 */
+    .slide h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+    }
+    
+    .slide.has-image h1 {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .slide h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+    
+    .slide p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--secondary-color);
+    }
+    
+    .slide.has-image p {
+        color: rgba(255,255,255,0.9);
+        text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    
     /* 幻灯片导航样式 */
     .slide-navigation {
         display: flex;
@@ -66,23 +102,28 @@ layout: default
         background: white;
         color: var(--accent-color);
         border: 1px solid var(--accent-color);
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius, 8px);
         font-size: 1rem;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--transition);
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     
     .nav-button:hover {
         background: var(--accent-color);
         color: white;
+        transform: translateY(-2px);
     }
     
     .nav-button:disabled {
         background: var(--light-gray);
         color: var(--secondary-color);
-        border-color: #e5e7eb;
+        border-color: var(--border-color);
         cursor: not-allowed;
+        transform: none;
     }
     
     /* 页码指示器 */
@@ -97,9 +138,9 @@ layout: default
         width: 12px;
         height: 12px;
         border-radius: 3px;
-        background: #e5e7eb;
+        background: var(--border-color);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--transition);
     }
     
     .indicator.active {
@@ -112,6 +153,14 @@ layout: default
             padding: 20px;
             min-height: 60vh;
         }
+        
+        .slide h1 {
+            font-size: 2rem;
+        }
+        
+        .slide h2 {
+            font-size: 1.5rem;
+        }
     }
 </style>
 
@@ -119,14 +168,20 @@ layout: default
     {{ content }}
     
     <!-- 幻灯片导航指示器 -->
-    <div class="slide-indicators" id="slideIndicators">
+    <div class="slide-indicators" id="slideIndicators" role="tablist" aria-label="幻灯片导航">
         <!-- 由JavaScript动态生成指示器 -->
     </div>
     
     <!-- 幻灯片导航按钮 -->
     <div class="slide-navigation">
-        <button class="nav-button" id="prevSlide" disabled>上一页</button>
-        <button class="nav-button" id="nextSlide">下一页</button>
+        <button class="nav-button" id="prevSlide" disabled aria-label="上一页幻灯片">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            上一页
+        </button>
+        <button class="nav-button" id="nextSlide" aria-label="下一页幻灯片">
+            下一页
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
     </div>
 </div>
 
@@ -139,10 +194,19 @@ layout: default
         
         let currentSlide = 0;
         
+        // 如果没有幻灯片，隐藏导航
+        if (slides.length <= 1) {
+            indicatorsContainer.style.display = 'none';
+            document.querySelector('.slide-navigation').style.display = 'none';
+        }
+        
         // 创建指示器
         slides.forEach((_, index) => {
             const indicator = document.createElement('div');
             indicator.className = 'indicator' + (index === 0 ? ' active' : '');
+            indicator.setAttribute('role', 'tab');
+            indicator.setAttribute('aria-selected', index === 0);
+            indicator.setAttribute('aria-label', `第${index + 1}页幻灯片`);
             indicator.addEventListener('click', () => goToSlide(index));
             indicatorsContainer.appendChild(indicator);
         });
@@ -151,14 +215,19 @@ layout: default
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.style.display = i === index ? 'flex' : 'none';
+                slide.setAttribute('aria-hidden', i !== index);
             });
             
             document.querySelectorAll('.indicator').forEach((indicator, i) => {
                 indicator.classList.toggle('active', i === index);
+                indicator.setAttribute('aria-selected', i === index);
             });
             
             prevButton.disabled = index === 0;
             nextButton.disabled = index === slides.length - 1;
+            
+            // 更新页面标题
+            document.title = `第${index + 1}页 / ${page.title || '幻灯片演示'}`;
             
             currentSlide = index;
         }
@@ -171,6 +240,10 @@ layout: default
                     top: document.querySelector('.keynote-container').offsetTop - 20, 
                     behavior: 'smooth' 
                 });
+                
+                // 为当前幻灯片添加焦点
+                slides[index].setAttribute('tabindex', '-1');
+                slides[index].focus();
             }
         }
         
@@ -180,14 +253,47 @@ layout: default
         
         // 键盘导航
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
+            // 只在焦点不在输入元素时响应键盘导航
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+                return;
+            }
+            
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') {
                 e.preventDefault();
                 goToSlide(currentSlide + 1);
-            } else if (e.key === 'ArrowLeft') {
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                 e.preventDefault();
                 goToSlide(currentSlide - 1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                goToSlide(slides.length - 1);
             }
         });
+        
+        // 触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.querySelector('.keynote-container').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        document.querySelector('.keynote-container').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX - touchStartX > swipeThreshold) {
+                goToSlide(currentSlide - 1);
+            } else if (touchEndX - touchStartX < -swipeThreshold) {
+                goToSlide(currentSlide + 1);
+            }
+        }
         
         // 初始化
         showSlide(0);
