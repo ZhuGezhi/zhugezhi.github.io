@@ -5,14 +5,14 @@ header-img: "img/post-bg-desk.jpg"
 email: "zgl27375885@gmail.com"
 description: "Unity of knowledge and action."
 keyword: "BY, BY Lorne, 汁的博客, zhugezhi, 诸葛汁, Photo, Lit, Math"
-url: "http://zhugezhi.github.io"          # your host, for absolute URL
-baseurl: "/"      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/ZhuGezhi/zhugezhi.github.io.git" # you code repository
+url: "https://zhugezhi.github.io"          # 使用https更安全
+baseurl: "/"      # 根目录，配置正确
+github_repo: "https://github.com/ZhuGezhi/zhugezhi.github.io.git" # 代码仓库地址
 
 # Sidebar settings
-sidebar: true                           # whether or not using Sidebar.
+sidebar: true                           # 启用侧边栏
 sidebar-about-description: "Knowledge and action unite; action validates knowledge."
-sidebar-avatar: "img/about-LZ-gentle.JPG"      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: "img/about-LZ-gentle.JPG"      # 侧边栏头像路径
 
 # SNS settings
 RSS: false
@@ -22,55 +22,43 @@ github_username: "ZhuGezhi"
 twitter_username: "zgl27375885"
 
 # Build settings
-# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
-permalink: pretty
-paginate: 10
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+permalink: pretty                       # 美观的URL格式，配置正确
+paginate: 10                            # 每页显示10篇文章
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"] # 排除文件
+anchorjs: true                          # 启用锚点JS
 
 # Gems
-# from PR#40, to support local preview for Jekyll 3.0
-plugins: [jekyll-paginate]  # 使用plugins替代gems，符合最新规范
+plugins: 
+  - jekyll-paginate                     # 分页插件
+  - jekyll-sitemap                      # 推荐添加：生成站点地图，利于SEO
 
 # Markdown settings
-# replace redcarpet to kramdown,
-# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
-# document: http://jekyllrb.com/docs/configuration/#kramdown
 markdown: kramdown
 highlighter: rouge
 kramdown:
-  input: GFM                            # use Github Flavored Markdown !important
+  input: GFM                            # 使用GitHub Flavored Markdown
+  syntax_highlighter: rouge             # 明确指定语法高亮器
 
 # 评论系统
-# Disqus（https://disqus.com/）
-# disqus_username: qiubaiying
-
-# Gitalk
 gitalk:
-  enable: false    # 修复拼写错误：flalse -> false
-  clientID: "Ov23liEeAkAaaPBsp5G0"                           #生成的clientID
-  clientSecret: "f04fdd477c4baab8088a20848fc07ecf37630793"    #生成的clientSecret
-  repo: "blog-comments"    #仓库名称
-  owner: "ZhuGezhi"    #github用户名
+  enable: false                         # 已修复拼写错误
+  clientID: "Ov23liEeAkAaaPBsp5G0"
+  clientSecret: "f04fdd477c4baab8088a20848fc07ecf37630793"
+  repo: "blog-comments"
+  owner: "ZhuGezhi"
   admin: ["ZhuGezhi"]
-  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+  distractionFreeMode: true
 
 # 统计
-
-# Analytics settings
-# Baidu Analytics
-#ba_track_id: b50bf2b12b5338a1845e33832976fd68
-
-# Google Analytics
-ga_track_id: "G-CZXSW9B3FH"            # Format: UA-xxxxxx-xx
-ga_domain: "zhugezhi.icu"               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
+ga_track_id: "G-CZXSW9B3FH"            # Google Analytics ID
+ga_domain: "zhugezhi.icu"               # 自定义域名
 
 # Featured Tags
-featured-tags: true                     # 是否使用首页标签
-featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
+featured-tags: true                     # 启用首页标签
+featured-condition-size: 1              # 标签数量阈值
 
 # Progressive Web Apps
-chrome-tab-theme-color: "#000000"
+chrome-tab-theme-color: "#4299e1"       # 改为主色调，更统一
 service-worker: true
 
 # Friends
@@ -86,3 +74,7 @@ friends: [
         href: "https://github.com/"
     }
 ]
+
+# 额外配置：提高兼容性
+timezone: Asia/Shanghai                 # 设置时区，确保日期显示正确
+encoding: utf-8                         # 文件编码
