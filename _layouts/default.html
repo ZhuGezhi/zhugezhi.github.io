@@ -203,8 +203,8 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin: 25px 0;
-            padding-top: 20px;
+            margin: 20px 0;
+            padding-top: 15px;
             border-top: 1px dashed var(--border-color);
         }
         
@@ -226,6 +226,32 @@
             background: var(--accent-color);
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        
+        .sidebar-email {
+            text-align: center;
+            margin: 15px 0 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .sidebar-email a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: var(--light-gray);
+        }
+        
+        .sidebar-email a:hover {
+            color: var(--accent-color);
+            background: #f0f7ff;
+            transform: translateY(-2px);
         }
         
         .sidebar-tags {
@@ -359,8 +385,11 @@
                     <i class="fa fa-twitter"></i>
                 </a>
                 {% endif %}
-                <a href="mailto:{{ site.email }}" target="_blank" title="Email">
-                    <i class="fa fa-envelope"></i>
+            </div>
+            
+            <div class="sidebar-email">
+                <a href="mailto:{{ site.email }}" target="_blank" title="发送邮件">
+                    📫 {{ site.email }}
                 </a>
             </div>
             
@@ -384,7 +413,7 @@
     <footer class="site-footer">
         <div class="container">
             <p>© {{ site.time | date: "%Y" }} L's Thought Hub. All rights reserved.</p>
-            <p style="margin-top: 10px;">Built with <i class="fa fa-heart" style="color: #ff4d4d;"></i> and Jekyll</p>
+            <p style="margin-top: 10px;">Built with &hearts; and Jekyll</p>
         </div>
     </footer>
 
