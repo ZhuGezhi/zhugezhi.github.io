@@ -7,6 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ page.title | default: site.title }}</title>
+    
+    <!-- 添加Favicon配置 -->
+    {% if site.favicon %}
+    <link rel="icon" href="{{ site.url }}{{ site.favicon }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ site.url }}{{ site.favicon }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ site.url }}{{ site.favicon }}">
+    {% endif %}
+    
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
